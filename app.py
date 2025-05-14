@@ -20,10 +20,10 @@ def predict():
         file.save("temp.wav")
 
         audio_data, sr = librosa.load("temp.wav", sr=22050)
-        mfcc = librosa.feature.mfcc(y=audio_data, sr=sr, n_mfcc=40)
+        mfcc = librosa.feature.mfcc(y=audio_data, sr=sr, n_mfcc=128)
         mfcc = librosa.util.fix_length(mfcc, size=128, axis=1)
-        mfcc = np.expand_dims(mfcc, axis=-1)
-        mfcc = np.expand_dims(mfcc, axis=0).astype(np.float32)
+        mfcc = np.expand_dims(mfcc, axis=-1)   # Add channel dim
+        mfcc = np.expand_dims(mfcc, axis=0).astype(np.float32)  # Add batch dim
 
         input_details = model.get_input_details()
         output_details = model.get_output_details()
